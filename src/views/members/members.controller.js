@@ -44,9 +44,10 @@ function initUpload() {
   const previewImage = document.getElementById('add-preview')
 
   // 인풋 파일 미리보기 설정
-  setupImagePreview(imageInput, previewImage, (event) => {
-    clearPreviewImage(document.getElementById('add-preview')) // 사진 초기화
-    imageUrlInfo = handlePreviewImg(event, previewImage) // 사진 등록
+  let imageUrlInfo = ''
+  clearPreviewImage(document.getElementById('add-preview')) // 사진 초기화
+  setupImagePreview(imageInput, previewImage, (event, revoke) => {
+    imageUrlInfo = revoke
   })
 
   // 유효성 검사 설정
@@ -67,7 +68,7 @@ function initUpload() {
       closeModal(addForm)
 
       if (imageUrlInfo) {
-        imageUrlInfo.revokeImageUrl
+        imageUrlInfo.revokeImageUrl()
       }
     } catch (error) {
       console.error('Error during form submission: ', error)

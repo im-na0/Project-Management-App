@@ -1,10 +1,12 @@
-export function setupImagePreview(imageInput, previewImage) {
+export function setupImagePreview(imageInput, previewImage, callback) {
   imageInput.addEventListener('change', (event) => {
-    handlePreviewImg(event, previewImage)
+    handlePreviewImg(event, previewImage, (revoke) => {
+      callback(event, revoke)
+    })
   })
 }
 
-export function handlePreviewImg(event, previewImgEl) {
+export function handlePreviewImg(event, previewImgEl, callback) {
   try {
     const selectedFile = event.target.files[0]
 
@@ -22,7 +24,7 @@ export function handlePreviewImg(event, previewImgEl) {
         URL.revokeObjectURL(imageUrl)
       },
     }
-    return imageUrlInfo
+    callback(imageUrlInfo)
   } catch (error) {
     console.error('Error during handlePreviewImg: ', error)
     alert(error.message)
